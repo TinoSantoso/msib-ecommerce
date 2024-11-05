@@ -1,0 +1,47 @@
+
+name: CI Pipeline for Laravel
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'  # Updated to PHP 8.2 for Laravel 11
+          extensions: mbstring, pdo, pdo_mysql, curl
+          coverage: none
+
+      - name: Install dependencies with Composer
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Copy .env.example to .env
+        run: cp .env.example .env
+
+      - name: Generate application key
+        run: php artisan key:generate
+
+      - name: Set up database
+        run: |
+          php -r "file_exists('./database/database.sqlite') || touch('./database/database.sqlite');"
+          php artisan migrate --force
+
+      - name: Install Node.js dependencies and build assets
+        run: |
+          npm install
+          npm run build
+
+      - name: Run tests
+        run: php artisan test
