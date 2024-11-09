@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 echo "Running composer"
 composer global require hirak/prestissimo
+composer install --no-dev --optimize-autoloader
 composer install --no-dev --working-dir=/var/www/html
 
 echo "generating application key..."
@@ -16,4 +17,4 @@ echo "Running migrations..."
 php artisan migrate --force
 
 echo "Running seeders..."
-php artisan db:seed --class=DatabaseSeeder
+php artisan db:seed
