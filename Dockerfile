@@ -22,6 +22,9 @@ COPY . .
 # Copy the custom Nginx site configuration file
 COPY conf/nginx/nginx-site.conf /etc/nginx/sites-available/default
 
+# Update PHP-FPM to listen on 127.0.0.1:9000 instead of the default socket
+RUN echo "listen = 127.0.0.1:9000" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+
 # Set environment variables
 ENV APP_ENV production
 ENV APP_DEBUG false
