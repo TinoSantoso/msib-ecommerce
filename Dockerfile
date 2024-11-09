@@ -20,7 +20,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Copy the custom Nginx site configuration file
-COPY nginx-site.conf /etc/nginx/sites-available/default
+COPY conf/nginx/nginx-site.conf /etc/nginx/sites-available/default
 
 # Set environment variables
 ENV APP_ENV production
