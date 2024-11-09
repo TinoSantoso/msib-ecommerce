@@ -19,6 +19,9 @@ WORKDIR /var/www/html
 # Copy the application code to the container
 COPY . .
 
+# Copy the custom Nginx site configuration file
+COPY nginx-site.conf /etc/nginx/sites-available/default
+
 # Set environment variables
 ENV APP_ENV production
 ENV APP_DEBUG false
